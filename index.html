@@ -11,13 +11,40 @@ body {
   font-family: "Times New Roman", serif;
   background: #eaeaea;
   padding: 20px;
+  transition: 0.3s;
 }
 
+/* SELETOR */
+.modo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.modo button {
+  margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  background: #000;
+  color: #fff;
+}
+
+/* CONTAINER BASE */
 .container {
-  max-width: 900px;
   margin: auto;
   background: #fff;
   padding: 20px;
+  transition: 0.3s;
+}
+
+/* NOTEBOOK */
+.desktop .container {
+  max-width: 900px;
+}
+
+/* CELULAR */
+.mobile .container {
+  max-width: 400px;
 }
 
 /* INPUTS */
@@ -27,35 +54,31 @@ input, textarea {
   margin-bottom: 10px;
 }
 
-button {
+button.gerar {
   width: 100%;
   padding: 15px;
   background: black;
   color: white;
   border: none;
-  cursor: pointer;
 }
 
-/* CURRICULO */
+/* CURRICULO (A4 ABNT) */
 #curriculo {
   display: none;
   width: 794px;
   height: 1123px;
   background: white;
 
-  /* 🔥 MARGENS ABNT */
   box-sizing: border-box;
-  padding-top: 113px;    /* 3 cm */
-  padding-left: 113px;   /* 3 cm */
-  padding-right: 75px;   /* 2 cm */
-  padding-bottom: 75px;  /* 2 cm */
+  padding-top: 113px;
+  padding-left: 113px;
+  padding-right: 75px;
+  padding-bottom: 75px;
 }
 
-/* TOPO */
 .topo {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
 }
 
 .info {
@@ -75,9 +98,7 @@ button {
   object-fit: cover;
 }
 
-/* TEXTO */
 .nome {
-  font-size: 20px;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -99,7 +120,13 @@ p {
 </style>
 </head>
 
-<body>
+<body class="desktop">
+
+<!-- 🔥 SELETOR -->
+<div class="modo">
+  <button onclick="setModo('desktop')">💻 Notebook</button>
+  <button onclick="setModo('mobile')">📱 Celular</button>
+</div>
 
 <div class="container">
   <h2>Preencher Currículo</h2>
@@ -111,9 +138,8 @@ p {
   <input id="telefone" placeholder="Telefone">
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo" placeholder="Objetivo profissional"></textarea>
-
-  <textarea id="formacao" placeholder="Formação escolar"></textarea>
+  <textarea id="objetivo" placeholder="Objetivo"></textarea>
+  <textarea id="formacao" placeholder="Formação"></textarea>
 
   <h3>Experiência 1</h3>
   <input id="empresa1" placeholder="Empresa">
@@ -125,11 +151,11 @@ p {
   <input id="cargo2" placeholder="Cargo">
   <input id="periodo2" placeholder="Período">
 
-  <textarea id="cursos" placeholder="Cursos complementares"></textarea>
+  <textarea id="cursos" placeholder="Cursos"></textarea>
 
-  <input type="file" id="foto" accept="image/*">
+  <input type="file" id="foto">
 
-  <button onclick="gerarPDF()">Gerar Currículo em PDF</button>
+  <button class="gerar" onclick="gerarPDF()">Gerar PDF</button>
 </div>
 
 <!-- CURRICULO -->
@@ -169,76 +195,62 @@ p {
 </div>
 
 <script>
-function gerarPDF() {
+// 🔥 TROCAR MODO
+function setModo(tipo){
+  document.body.className = tipo;
+}
 
-  document.getElementById("outNome").innerText =
-    document.getElementById("nome").value;
+// GERAR PDF
+function gerarPDF(){
 
-  document.getElementById("outEndereco").innerText =
-    "Endereço: " + document.getElementById("endereco").value;
+  outNome.innerText = nome.value;
+  outEndereco.innerText = "Endereço: " + endereco.value;
+  outBairro.innerText = "Bairro: " + bairro.value;
+  outCidade.innerText = "Cidade: " + cidade.value;
+  outTelefone.innerText = "Telefone: " + telefone.value;
+  outEmail.innerText = "E-mail: " + email.value;
 
-  document.getElementById("outBairro").innerText =
-    "Bairro: " + document.getElementById("bairro").value;
+  outObjetivo.innerText = objetivo.value;
+  outFormacao.innerText = formacao.value;
 
-  document.getElementById("outCidade").innerText =
-    "Cidade: " + document.getElementById("cidade").value;
-
-  document.getElementById("outTelefone").innerText =
-    "Telefone: " + document.getElementById("telefone").value;
-
-  document.getElementById("outEmail").innerText =
-    "E-mail: " + document.getElementById("email").value;
-
-  document.getElementById("outObjetivo").innerText =
-    document.getElementById("objetivo").value;
-
-  document.getElementById("outFormacao").innerText =
-    document.getElementById("formacao").value;
-
-  let experiencia = "";
+  let exp = "";
 
   if(empresa1.value){
-    experiencia += "Empresa: " + empresa1.value + "\n";
-    experiencia += "Cargo: " + cargo1.value + "\n";
-    experiencia += "Período: " + periodo1.value + "\n\n";
+    exp += "Empresa: " + empresa1.value + "\n";
+    exp += "Cargo: " + cargo1.value + "\n";
+    exp += "Período: " + periodo1.value + "\n\n";
   }
 
   if(empresa2.value){
-    experiencia += "Empresa: " + empresa2.value + "\n";
-    experiencia += "Cargo: " + cargo2.value + "\n";
-    experiencia += "Período: " + periodo2.value + "\n";
+    exp += "Empresa: " + empresa2.value + "\n";
+    exp += "Cargo: " + cargo2.value + "\n";
+    exp += "Período: " + periodo2.value + "\n";
   }
 
-  document.getElementById("outExperiencia").innerText = experiencia;
+  outExperiencia.innerText = exp;
+  outCursos.innerText = cursos.value;
 
-  document.getElementById("outCursos").innerText =
-    document.getElementById("cursos").value;
+  const file = foto.files[0];
 
-  const file = document.getElementById("foto").files[0];
-
-  if (!file) {
-    alert("Adicione uma foto!");
+  if(!file){
+    alert("Adicione uma foto");
     return;
   }
 
   const reader = new FileReader();
 
-  reader.onload = function(e) {
-    document.getElementById("outFoto").src = e.target.result;
+  reader.onload = function(e){
+    outFoto.src = e.target.result;
 
-    document.getElementById("curriculo").style.display = "block";
+    curriculo.style.display = "block";
 
     html2pdf().set({
       margin: 0,
       filename: 'curriculo.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 3 },
-      jsPDF: {
-        unit: 'px',
-        format: [794, 1123],
-        orientation: 'portrait'
-      }
-    }).from(document.getElementById("curriculo")).save();
+      jsPDF: { unit: 'px', format: [794, 1123] }
+    }).from(curriculo).save();
   };
 
   reader.readAsDataURL(file);
