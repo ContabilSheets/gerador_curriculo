@@ -44,7 +44,6 @@ button.gerar {
   width: 794px;
   height: 1123px;
   background: white;
-
   box-sizing: border-box;
   padding-top: 113px;
   padding-left: 113px;
@@ -52,9 +51,11 @@ button.gerar {
   padding-bottom: 75px;
 }
 
+/* 🔥 AJUSTE PRINCIPAL */
 .topo {
   display: flex;
   justify-content: space-between;
+  align-items: stretch; /* Faz a foto acompanhar a altura do texto */
 }
 
 .info {
@@ -63,9 +64,9 @@ button.gerar {
 
 .foto-box {
   width: 150px;
-  height: 200px;
   border: 1px solid black;
   overflow: hidden;
+  display: flex;
 }
 
 .foto-box img {
@@ -122,7 +123,6 @@ p {
   <input id="cargo2" placeholder="Cargo">
   <input id="periodo2" placeholder="Período">
 
-  <!-- 🔥 EXPERIÊNCIA 3 -->
   <h3>Experiência 3</h3>
   <input id="empresa3" placeholder="Empresa">
   <input id="cargo3" placeholder="Cargo">
