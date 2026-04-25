@@ -25,11 +25,11 @@ body {
   padding: 10px 20px;
   border: none;
   cursor: pointer;
-  background: #000;
-  color: #fff;
+  background: black;
+  color: white;
 }
 
-/* CONTAINER BASE */
+/* CONTAINER */
 .container {
   margin: auto;
   background: #fff;
@@ -37,12 +37,11 @@ body {
   transition: 0.3s;
 }
 
-/* NOTEBOOK */
+/* MODOS */
 .desktop .container {
   max-width: 900px;
 }
 
-/* CELULAR */
 .mobile .container {
   max-width: 400px;
 }
@@ -62,7 +61,7 @@ button.gerar {
   border: none;
 }
 
-/* CURRICULO (A4 ABNT) */
+/* CURRICULO A4 ABNT */
 #curriculo {
   display: none;
   width: 794px;
@@ -70,10 +69,10 @@ button.gerar {
   background: white;
 
   box-sizing: border-box;
-  padding-top: 113px;
-  padding-left: 113px;
-  padding-right: 75px;
-  padding-bottom: 75px;
+  padding-top: 113px;   /* 3cm */
+  padding-left: 113px;  /* 3cm */
+  padding-right: 75px;  /* 2cm */
+  padding-bottom: 75px; /* 2cm */
 }
 
 .topo {
@@ -120,9 +119,9 @@ p {
 </style>
 </head>
 
-<body class="desktop">
+<body>
 
-<!-- 🔥 SELETOR -->
+<!-- SELETOR -->
 <div class="modo">
   <button onclick="setModo('desktop')">💻 Notebook</button>
   <button onclick="setModo('mobile')">📱 Celular</button>
@@ -195,9 +194,21 @@ p {
 </div>
 
 <script>
-// 🔥 TROCAR MODO
+// 🔥 SALVA E RECARREGA
 function setModo(tipo){
-  document.body.className = tipo;
+  localStorage.setItem("modoTela", tipo);
+  location.reload();
+}
+
+// 🔥 CARREGA MODO AO ABRIR
+window.onload = function(){
+  let modo = localStorage.getItem("modoTela");
+
+  if(!modo){
+    modo = window.innerWidth < 600 ? "mobile" : "desktop";
+  }
+
+  document.body.className = modo;
 }
 
 // GERAR PDF
