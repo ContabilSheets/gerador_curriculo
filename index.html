@@ -8,6 +8,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Times New Roman", serif;
   background: #eaeaea;
@@ -15,6 +19,7 @@ body {
   padding: 10px;
 }
 
+/* FORMULÁRIO */
 .container {
   max-width: 400px;
   margin: auto;
@@ -25,9 +30,16 @@ body {
 
 input, textarea {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 10px;
   font-size: 14px;
+  border: 1px solid #999;
+  border-radius: 5px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
 button.gerar {
@@ -37,36 +49,42 @@ button.gerar {
   color: white;
   border: none;
   font-size: 16px;
+  border-radius: 5px;
 }
 
+/* CHECKBOX CNH */
+label {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+/* CURRÍCULO */
 #curriculo {
   display: none;
   width: 794px;
   height: 1123px;
   background: white;
   box-sizing: border-box;
-  padding-top: 113px;
-  padding-left: 113px;
-  padding-right: 75px;
-  padding-bottom: 75px;
+  padding: 113px 75px 75px 113px;
 }
 
-/* 🔥 AJUSTE PRINCIPAL */
 .topo {
   display: flex;
   justify-content: space-between;
-  align-items: stretch; /* Faz a foto acompanhar a altura do texto */
+  align-items: flex-start;
 }
 
 .info {
   width: 75%;
 }
 
+/* FOTO 3x4 */
 .foto-box {
-  width: 150px;
+  width: 3cm;
+  height: 4cm;
   border: 1px solid black;
   overflow: hidden;
-  display: flex;
+  flex-shrink: 0;
 }
 
 .foto-box img {
@@ -94,6 +112,18 @@ p {
   margin: 5px 0;
   white-space: pre-line;
 }
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .container {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  input, textarea {
+    font-size: 16px;
+  }
+}
 </style>
 </head>
 
@@ -109,7 +139,7 @@ p {
   <input id="telefone" placeholder="Telefone">
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo">Atuar na Empresa, na área da saúde a fim de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.</textarea>
+  <textarea id="objetivo">Atuar na Empresa, na área da saúde a fim de agregar conceitos práticos à minha formação.</textarea>
 
   <textarea id="formacao" placeholder="Formação"></textarea>
 
@@ -130,6 +160,17 @@ p {
 
   <textarea id="cursos" placeholder="Cursos"></textarea>
 
+  <!-- CNH -->
+  <h3>Habilitação</h3>
+  <label><input type="checkbox" value="A" class="cnh"> A</label>
+  <label><input type="checkbox" value="B" class="cnh"> B</label>
+  <label><input type="checkbox" value="C" class="cnh"> C</label>
+  <label><input type="checkbox" value="D" class="cnh"> D</label>
+  <label><input type="checkbox" value="E" class="cnh"> E</label>
+  <label><input type="checkbox" value="ACC" class="cnh"> ACC</label>
+
+  <br><br>
+
   <input type="file" id="foto">
 
   <button class="gerar" onclick="gerarPDF()">Gerar PDF</button>
@@ -145,6 +186,7 @@ p {
       <p id="outCidade"></p>
       <p id="outTelefone"></p>
       <p id="outEmail"></p>
+      <p id="outCnh"></p>
     </div>
 
     <div class="foto-box">
@@ -179,6 +221,20 @@ function gerarPDF(){
   outCidade.innerText = "Cidade: " + cidade.value;
   outTelefone.innerText = "Telefone: " + telefone.value;
   outEmail.innerText = "E-mail: " + email.value;
+
+  // CNH
+  let categorias = document.querySelectorAll(".cnh:checked");
+  let lista = [];
+
+  categorias.forEach(c => {
+    lista.push(c.value);
+  });
+
+  if(lista.length > 0){
+    outCnh.innerText = "Categoria " + lista.join("/");
+  } else {
+    outCnh.innerText = "";
+  }
 
   outObjetivo.innerText = objetivo.value;
   outFormacao.innerText = formacao.value;
