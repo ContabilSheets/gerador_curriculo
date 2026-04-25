@@ -52,12 +52,18 @@ button.gerar {
   border-radius: 5px;
 }
 
-/* CNH */
+/* CNH ORGANIZADA */
+.cnh-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 20px;
+  margin-bottom: 10px;
+}
+
 .cnh-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 5px;
   font-size: 15px;
 }
 
@@ -126,6 +132,10 @@ p {
   input, textarea {
     font-size: 16px;
   }
+
+  .cnh-group {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
@@ -142,8 +152,7 @@ p {
   <input id="telefone" placeholder="Telefone">
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo">Atuar na Empresa, na área da saúde a fim de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.
-</textarea>
+  <textarea id="objetivo">Atuar na Empresa, na área da saúde a fim de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.</textarea>
 
   <textarea id="formacao" placeholder="Formação"></textarea>
 
@@ -166,15 +175,14 @@ p {
 
   <!-- CNH -->
   <h3>Habilitação</h3>
-
-  <label class="cnh-item"><input type="checkbox" value="A" class="cnh"> Cat. A</label>
-  <label class="cnh-item"><input type="checkbox" value="B" class="cnh"> Cat. B</label>
-  <label class="cnh-item"><input type="checkbox" value="C" class="cnh"> Cat. C</label>
-  <label class="cnh-item"><input type="checkbox" value="D" class="cnh"> Cat. D</label>
-  <label class="cnh-item"><input type="checkbox" value="E" class="cnh"> Cat. E</label>
-  <label class="cnh-item"><input type="checkbox" value="ACC" class="cnh"> Cat. ACC</label>
-
-  <br>
+  <div class="cnh-group">
+    <label class="cnh-item"><input type="checkbox" value="A" class="cnh"> Cat. A</label>
+    <label class="cnh-item"><input type="checkbox" value="B" class="cnh"> Cat. B</label>
+    <label class="cnh-item"><input type="checkbox" value="C" class="cnh"> Cat. C</label>
+    <label class="cnh-item"><input type="checkbox" value="D" class="cnh"> Cat. D</label>
+    <label class="cnh-item"><input type="checkbox" value="E" class="cnh"> Cat. E</label>
+    <label class="cnh-item"><input type="checkbox" value="ACC" class="cnh"> Cat. ACC</label>
+  </div>
 
   <input type="file" id="foto">
 
@@ -235,11 +243,7 @@ function gerarPDF(){
     lista.push(c.value);
   });
 
-  if(lista.length > 0){
-    outCnh.innerText = "Cat. " + lista.join("/");
-  } else {
-    outCnh.innerText = "";
-  }
+  outCnh.innerText = lista.length ? "Cat. " + lista.join("/") : "";
 
   outObjetivo.innerText = objetivo.value;
   outFormacao.innerText = formacao.value;
