@@ -2,8 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerador de Currículo</title>
+<title>Currículo Profissional</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
@@ -19,21 +18,19 @@ body {
   margin: auto;
   background: #fff;
   padding: 20px;
-  border-radius: 8px;
 }
 
 input, textarea {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
 }
 
 button {
   width: 100%;
   padding: 15px;
-  background: #000;
-  color: #fff;
+  background: black;
+  color: white;
   border: none;
   cursor: pointer;
 }
@@ -44,23 +41,33 @@ button {
   width: 794px;
   padding: 40px;
   background: white;
-  color: black;
 }
 
 .topo {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
-.foto {
-  width: 130px;
-  height: 150px;
+.info {
+  width: 75%;
+}
+
+.foto-box {
+  width: 150px;
+  height: 180px;
+  border: 1px solid black;
+  overflow: hidden; /* 🔥 trava a imagem dentro */
+}
+
+.foto-box img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border: 1px solid #000;
 }
 
 .nome {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -87,31 +94,40 @@ p {
 <div class="container">
   <h2>Preencher Currículo</h2>
 
-  <input id="nome" placeholder="NOME COMPLETO (MAIÚSCULO)">
-  <input id="endereco" placeholder="Endereço: Rua, nº">
+  <input id="nome" placeholder="NOME COMPLETO" oninput="this.value = this.value.toUpperCase()">
+  <input id="endereco" placeholder="Endereço">
   <input id="bairro" placeholder="Bairro">
   <input id="cidade" placeholder="Cidade - Estado">
   <input id="telefone" placeholder="Telefone">
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo" placeholder="Objetivo profissional"></textarea>
+  <textarea id="objetivo" placeholder="Objetivo"></textarea>
 
-  <textarea id="formacao" placeholder="Formação escolar (uma por linha)"></textarea>
+  <textarea id="formacao" placeholder="Formação"></textarea>
 
-  <textarea id="experiencia" placeholder="Experiência profissional (igual modelo)"></textarea>
+  <!-- EXPERIÊNCIA SEPARADA -->
+  <h3>Experiência 1</h3>
+  <input id="empresa1" placeholder="Empresa">
+  <input id="cargo1" placeholder="Cargo">
+  <input id="periodo1" placeholder="Período">
 
-  <textarea id="cursos" placeholder="Cursos complementares"></textarea>
+  <h3>Experiência 2</h3>
+  <input id="empresa2" placeholder="Empresa">
+  <input id="cargo2" placeholder="Cargo">
+  <input id="periodo2" placeholder="Período">
 
-  <input type="file" id="foto" accept="image/*">
+  <textarea id="cursos" placeholder="Cursos"></textarea>
 
-  <button onclick="gerarPDF()">Gerar Currículo em PDF</button>
+  <input type="file" id="foto">
+
+  <button onclick="gerarPDF()">Gerar PDF</button>
 </div>
 
 <!-- CURRICULO -->
 <div id="curriculo">
 
   <div class="topo">
-    <div>
+    <div class="info">
       <p class="nome" id="outNome"></p>
       <p id="outEndereco"></p>
       <p id="outBairro"></p>
@@ -119,7 +135,10 @@ p {
       <p id="outTelefone"></p>
       <p id="outEmail"></p>
     </div>
-    <img id="outFoto" class="foto">
+
+    <div class="foto-box">
+      <img id="outFoto">
+    </div>
   </div>
 
   <div class="section-title">OBJETIVO</div>
@@ -144,7 +163,7 @@ p {
 function gerarPDF() {
 
   document.getElementById("outNome").innerText =
-    document.getElementById("nome").value.toUpperCase();
+    document.getElementById("nome").value;
 
   document.getElementById("outEndereco").innerText =
     "Endereço: " + document.getElementById("endereco").value;
@@ -167,18 +186,27 @@ function gerarPDF() {
   document.getElementById("outFormacao").innerText =
     document.getElementById("formacao").value;
 
-  document.getElementById("outExperiencia").innerText =
-    document.getElementById("experiencia").value;
+  // EXPERIÊNCIAS FORMATADAS
+  let experiencia = "";
+
+  if(document.getElementById("empresa1").value){
+    experiencia += "Empresa: " + empresa1.value + "\n";
+    experiencia += "Cargo: " + cargo1.value + "\n";
+    experiencia += "Período: " + periodo1.value + "\n\n";
+  }
+
+  if(document.getElementById("empresa2").value){
+    experiencia += "Empresa: " + empresa2.value + "\n";
+    experiencia += "Cargo: " + cargo2.value + "\n";
+    experiencia += "Período: " + periodo2.value + "\n";
+  }
+
+  document.getElementById("outExperiencia").innerText = experiencia;
 
   document.getElementById("outCursos").innerText =
     document.getElementById("cursos").value;
 
   const file = document.getElementById("foto").files[0];
-
-  if (!file) {
-    alert("Selecione uma foto!");
-    return;
-  }
 
   const reader = new FileReader();
 
@@ -187,20 +215,20 @@ function gerarPDF() {
 
     document.getElementById("curriculo").style.display = "block";
 
-    const element = document.getElementById("curriculo");
-
-    const opt = {
+    html2pdf().set({
       margin: 0,
       filename: 'curriculo.pdf',
       image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 3, useCORS: true },
-      jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
-    };
-
-    html2pdf().set(opt).from(element).save();
+      html2canvas: { scale: 3 },
+      jsPDF: { unit: 'px', format: [794, 1123] }
+    }).from(document.getElementById("curriculo")).save();
   };
 
-  reader.readAsDataURL(file);
+  if(file){
+    reader.readAsDataURL(file);
+  } else {
+    alert("Adicione uma foto");
+  }
 }
 </script>
 
