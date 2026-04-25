@@ -52,10 +52,13 @@ button.gerar {
   border-radius: 5px;
 }
 
-/* CHECKBOX CNH */
-label {
-  margin-right: 10px;
-  font-size: 14px;
+/* CNH */
+.cnh-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+  font-size: 15px;
 }
 
 /* CURRÍCULO */
@@ -162,14 +165,15 @@ p {
 
   <!-- CNH -->
   <h3>Habilitação</h3>
-  <label><input type="checkbox" value="A" class="cnh"> A</label>
-  <label><input type="checkbox" value="B" class="cnh"> B</label>
-  <label><input type="checkbox" value="C" class="cnh"> C</label>
-  <label><input type="checkbox" value="D" class="cnh"> D</label>
-  <label><input type="checkbox" value="E" class="cnh"> E</label>
-  <label><input type="checkbox" value="ACC" class="cnh"> ACC</label>
 
-  <br><br>
+  <label class="cnh-item"><input type="checkbox" value="A" class="cnh"> Cat. A</label>
+  <label class="cnh-item"><input type="checkbox" value="B" class="cnh"> Cat. B</label>
+  <label class="cnh-item"><input type="checkbox" value="C" class="cnh"> Cat. C</label>
+  <label class="cnh-item"><input type="checkbox" value="D" class="cnh"> Cat. D</label>
+  <label class="cnh-item"><input type="checkbox" value="E" class="cnh"> Cat. E</label>
+  <label class="cnh-item"><input type="checkbox" value="ACC" class="cnh"> Cat. ACC</label>
+
+  <br>
 
   <input type="file" id="foto">
 
@@ -231,7 +235,7 @@ function gerarPDF(){
   });
 
   if(lista.length > 0){
-    outCnh.innerText = "Categoria " + lista.join("/");
+    outCnh.innerText = "Cat. " + lista.join("/");
   } else {
     outCnh.innerText = "";
   }
