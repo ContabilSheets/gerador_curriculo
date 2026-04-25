@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Currículo</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h2 {
+  margin-top: 30px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #333;
+}
+
+/* CURRICULO FINAL */
+#curriculo {
+  display: none;
+  padding: 40px;
+  background: #fff;
+  color: #000;
+}
+
+.topo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.topo img {
+  width: 120px;
+  height: 140px;
+  object-fit: cover;
+}
+
+hr {
+  border: 1px solid #000;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Gerador de Currículo</h1>
+
+  <input id="nome" placeholder="NOME COMPLETO">
+  <input id="endereco" placeholder="Endereço completo">
+  <input id="telefone" placeholder="Telefone">
+  <input id="email" placeholder="E-mail">
+
+  <textarea id="objetivo" placeholder="Objetivo profissional"></textarea>
+
+  <textarea id="formacao" placeholder="Formação escolar"></textarea>
+
+  <textarea id="experiencia" placeholder="Experiência profissional"></textarea>
+
+  <textarea id="cursos" placeholder="Cursos complementares"></textarea>
+
+  <input type="file" id="foto">
+
+  <button onclick="gerarPDF()">Gerar Currículo em PDF</button>
+</div>
+
+<!-- MODELO -->
+<div id="curriculo">
+  <div class="topo">
+    <div>
+      <h2 id="outNome"></h2>
+      <p id="outEndereco"></p>
+      <p id="outTelefone"></p>
+      <p id="outEmail"></p>
+    </div>
+    <img id="outFoto">
+  </div>
+
+  <h3>OBJETIVO</h3>
+  <hr>
+  <p id="outObjetivo"></p>
+
+  <h3>FORMAÇÃO ESCOLAR</h3>
+  <hr>
+  <p id="outFormacao"></p>
+
+  <h3>EXPERIÊNCIA PROFISSIONAL</h3>
+  <hr>
+  <p id="outExperiencia"></p>
+
+  <h3>CURSOS COMPLEMENTARES</h3>
+  <hr>
+  <p id="outCursos"></p>
+</div>
+
+<script>
+function gerarPDF() {
+
+  document.getElementById("outNome").innerText =
+    document.getElementById("nome").value;
+
+  document.getElementById("outEndereco").innerText =
+    document.getElementById("endereco").value;
+
+  document.getElementById("outTelefone").innerText =
+    document.getElementById("telefone").value;
+
+  document.getElementById("outEmail").innerText =
+    document.getElementById("email").value;
+
+  document.getElementById("outObjetivo").innerText =
+    document.getElementById("objetivo").value;
+
+  document.getElementById("outFormacao").innerText =
+    document.getElementById("formacao").value;
+
+  document.getElementById("outExperiencia").innerText =
+    document.getElementById("experiencia").value;
+
+  document.getElementById("outCursos").innerText =
+    document.getElementById("cursos").value;
+
+  // FOTO
+  const file = document.getElementById("foto").files[0];
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    document.getElementById("outFoto").src = e.target.result;
+
+    document.getElementById("curriculo").style.display = "block";
+
+    const element = document.getElementById("curriculo");
+
+    html2pdf().from(element).save("curriculo.pdf");
+  };
+
+  if (file) {
+    reader.readAsDataURL(file);
+  } else {
+    alert("Adicione uma foto!");
+  }
+}
+</script>
+
+</body>
+</html>
