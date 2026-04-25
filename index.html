@@ -19,7 +19,6 @@ body {
   padding: 10px;
 }
 
-/* FORMULÁRIO */
 .container {
   max-width: 400px;
   margin: auto;
@@ -37,11 +36,6 @@ input, textarea {
   border-radius: 5px;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
 button.gerar {
   width: 100%;
   padding: 15px;
@@ -52,18 +46,18 @@ button.gerar {
   border-radius: 5px;
 }
 
-/* CNH ORGANIZADA */
-.cnh-group {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 20px;
-  margin-bottom: 10px;
+/* CNH EXATAMENTE COMO PEDIDO */
+.cnh-linha {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
 }
 
 .cnh-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  width: 48%;
   font-size: 15px;
 }
 
@@ -73,27 +67,23 @@ button.gerar {
   width: 794px;
   height: 1123px;
   background: white;
-  box-sizing: border-box;
   padding: 113px 75px 75px 113px;
 }
 
 .topo {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
 }
 
 .info {
   width: 75%;
 }
 
-/* FOTO 3x4 */
 .foto-box {
   width: 3cm;
   height: 4cm;
   border: 1px solid black;
   overflow: hidden;
-  flex-shrink: 0;
 }
 
 .foto-box img {
@@ -110,7 +100,6 @@ button.gerar {
 .section-title {
   margin-top: 20px;
   font-weight: bold;
-  text-transform: uppercase;
 }
 
 hr {
@@ -120,22 +109,6 @@ hr {
 p {
   margin: 5px 0;
   white-space: pre-line;
-}
-
-/* MOBILE */
-@media (max-width: 480px) {
-  .container {
-    max-width: 100%;
-    padding: 10px;
-  }
-
-  input, textarea {
-    font-size: 16px;
-  }
-
-  .cnh-group {
-    grid-template-columns: 1fr;
-  }
 }
 </style>
 </head>
@@ -152,50 +125,38 @@ p {
   <input id="telefone" placeholder="Telefone">
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo">Atuar na Empresa, na área da saúde a fim de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.</textarea>
-
+  <textarea id="objetivo"></textarea>
   <textarea id="formacao" placeholder="Formação"></textarea>
 
-  <h3>Experiência 1</h3>
-  <input id="empresa1" placeholder="Empresa">
-  <input id="cargo1" placeholder="Cargo">
-  <input id="periodo1" placeholder="Período">
-
-  <h3>Experiência 2</h3>
-  <input id="empresa2" placeholder="Empresa">
-  <input id="cargo2" placeholder="Cargo">
-  <input id="periodo2" placeholder="Período">
-
-  <h3>Experiência 3</h3>
-  <input id="empresa3" placeholder="Empresa">
-  <input id="cargo3" placeholder="Cargo">
-  <input id="periodo3" placeholder="Período">
-
-  <textarea id="cursos" placeholder="Cursos"></textarea>
-
-  <!-- CNH -->
   <h3>Habilitação</h3>
-  <div class="cnh-group">
-    <label class="cnh-item"><input type="checkbox" value="A" class="cnh"> Cat. A</label>
-    <label class="cnh-item"><input type="checkbox" value="B" class="cnh"> Cat. B</label>
-    <label class="cnh-item"><input type="checkbox" value="C" class="cnh"> Cat. C</label>
-    <label class="cnh-item"><input type="checkbox" value="D" class="cnh"> Cat. D</label>
-    <label class="cnh-item"><input type="checkbox" value="E" class="cnh"> Cat. E</label>
-    <label class="cnh-item"><input type="checkbox" value="ACC" class="cnh"> Cat. ACC</label>
+
+  <!-- LINHA 1 -->
+  <div class="cnh-linha">
+    <label class="cnh-item"><input type="checkbox" value="A" class="cnh"> Cat A</label>
+    <label class="cnh-item"><input type="checkbox" value="D" class="cnh"> Cat D</label>
+  </div>
+
+  <!-- LINHA 2 -->
+  <div class="cnh-linha">
+    <label class="cnh-item"><input type="checkbox" value="B" class="cnh"> Cat B</label>
+    <label class="cnh-item"><input type="checkbox" value="E" class="cnh"> Cat E</label>
+  </div>
+
+  <!-- LINHA 3 -->
+  <div class="cnh-linha">
+    <label class="cnh-item"><input type="checkbox" value="C" class="cnh"> Cat C</label>
+    <label class="cnh-item"><input type="checkbox" value="ACC" class="cnh"> Cat ACC</label>
   </div>
 
   <input type="file" id="foto">
-
   <button class="gerar" onclick="gerarPDF()">Gerar PDF</button>
 </div>
 
 <div id="curriculo">
-
   <div class="topo">
     <div class="info">
       <p class="nome" id="outNome"></p>
       <p id="outEndereco"></p>
-      <p id="outBairro"></p>
       <p id="outCidade"></p>
       <p id="outTelefone"></p>
       <p id="outEmail"></p>
@@ -206,73 +167,25 @@ p {
       <img id="outFoto">
     </div>
   </div>
-
-  <div class="section-title">OBJETIVO</div>
-  <hr>
-  <p id="outObjetivo"></p>
-
-  <div class="section-title">FORMAÇÃO ESCOLAR</div>
-  <hr>
-  <p id="outFormacao"></p>
-
-  <div class="section-title">EXPERIÊNCIA PROFISSIONAL</div>
-  <hr>
-  <p id="outExperiencia"></p>
-
-  <div class="section-title">CURSOS COMPLEMENTARES</div>
-  <hr>
-  <p id="outCursos"></p>
-
 </div>
 
 <script>
 function gerarPDF(){
 
   outNome.innerText = nome.value;
-  outEndereco.innerText = "Endereço: " + endereco.value;
-  outBairro.innerText = "Bairro: " + bairro.value;
-  outCidade.innerText = "Cidade: " + cidade.value;
-  outTelefone.innerText = "Telefone: " + telefone.value;
-  outEmail.innerText = "E-mail: " + email.value;
+  outEndereco.innerText = endereco.value;
+  outCidade.innerText = cidade.value;
+  outTelefone.innerText = telefone.value;
+  outEmail.innerText = email.value;
 
-  // CNH
-  let categorias = document.querySelectorAll(".cnh:checked");
   let lista = [];
-
-  categorias.forEach(c => {
+  document.querySelectorAll(".cnh:checked").forEach(c => {
     lista.push(c.value);
   });
 
   outCnh.innerText = lista.length ? "Cat. " + lista.join("/") : "";
 
-  outObjetivo.innerText = objetivo.value;
-  outFormacao.innerText = formacao.value;
-
-  let exp = "";
-
-  if(empresa1.value){
-    exp += "Empresa: " + empresa1.value + "\n";
-    exp += "Cargo: " + cargo1.value + "\n";
-    exp += "Período: " + periodo1.value + "\n\n";
-  }
-
-  if(empresa2.value){
-    exp += "Empresa: " + empresa2.value + "\n";
-    exp += "Cargo: " + cargo2.value + "\n";
-    exp += "Período: " + periodo2.value + "\n\n";
-  }
-
-  if(empresa3.value){
-    exp += "Empresa: " + empresa3.value + "\n";
-    exp += "Cargo: " + cargo3.value + "\n";
-    exp += "Período: " + periodo3.value + "\n";
-  }
-
-  outExperiencia.innerText = exp;
-  outCursos.innerText = cursos.value;
-
   const file = foto.files[0];
-
   if(!file){
     alert("Adicione uma foto");
     return;
@@ -282,16 +195,9 @@ function gerarPDF(){
 
   reader.onload = function(e){
     outFoto.src = e.target.result;
-
     curriculo.style.display = "block";
 
-    html2pdf().set({
-      margin: 0,
-      filename: 'curriculo.pdf',
-      image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 3 },
-      jsPDF: { unit: 'px', format: [794, 1123] }
-    }).from(curriculo).save();
+    html2pdf().from(curriculo).save();
   };
 
   reader.readAsDataURL(file);
