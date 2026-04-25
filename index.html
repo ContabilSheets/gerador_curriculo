@@ -69,10 +69,10 @@ button.gerar {
   background: white;
 
   box-sizing: border-box;
-  padding-top: 113px;   /* 3cm */
-  padding-left: 113px;  /* 3cm */
-  padding-right: 75px;  /* 2cm */
-  padding-bottom: 75px; /* 2cm */
+  padding-top: 113px;
+  padding-left: 113px;
+  padding-right: 75px;
+  padding-bottom: 75px;
 }
 
 .topo {
@@ -84,9 +84,10 @@ button.gerar {
   width: 75%;
 }
 
+/* FOTO 3x4 */
 .foto-box {
   width: 150px;
-  height: 180px;
+  height: 200px;
   border: 1px solid black;
   overflow: hidden;
 }
@@ -121,7 +122,6 @@ p {
 
 <body>
 
-<!-- SELETOR -->
 <div class="modo">
   <button onclick="setModo('desktop')">💻 Notebook</button>
   <button onclick="setModo('mobile')">📱 Celular</button>
@@ -137,7 +137,9 @@ p {
   <input id="telefone" placeholder="Telefone">
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo" placeholder="Objetivo"></textarea>
+  <!-- 🔥 OBJETIVO PADRÃO EDITÁVEL -->
+  <textarea id="objetivo">Atuar na Empresa, na área da saúde a fim de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.</textarea>
+
   <textarea id="formacao" placeholder="Formação"></textarea>
 
   <h3>Experiência 1</h3>
@@ -157,7 +159,6 @@ p {
   <button class="gerar" onclick="gerarPDF()">Gerar PDF</button>
 </div>
 
-<!-- CURRICULO -->
 <div id="curriculo">
 
   <div class="topo">
@@ -194,13 +195,11 @@ p {
 </div>
 
 <script>
-// 🔥 SALVA E RECARREGA
 function setModo(tipo){
   localStorage.setItem("modoTela", tipo);
   location.reload();
 }
 
-// 🔥 CARREGA MODO AO ABRIR
 window.onload = function(){
   let modo = localStorage.getItem("modoTela");
 
@@ -211,7 +210,6 @@ window.onload = function(){
   document.body.className = modo;
 }
 
-// GERAR PDF
 function gerarPDF(){
 
   outNome.innerText = nome.value;
