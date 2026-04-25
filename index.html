@@ -20,6 +20,7 @@ body {
   padding: 20px;
 }
 
+/* INPUTS */
 input, textarea {
   width: 100%;
   padding: 8px;
@@ -39,10 +40,18 @@ button {
 #curriculo {
   display: none;
   width: 794px;
-  padding: 40px;
+  height: 1123px;
   background: white;
+
+  /* 🔥 MARGENS ABNT */
+  box-sizing: border-box;
+  padding-top: 113px;    /* 3 cm */
+  padding-left: 113px;   /* 3 cm */
+  padding-right: 75px;   /* 2 cm */
+  padding-bottom: 75px;  /* 2 cm */
 }
 
+/* TOPO */
 .topo {
   display: flex;
   justify-content: space-between;
@@ -57,7 +66,7 @@ button {
   width: 150px;
   height: 180px;
   border: 1px solid black;
-  overflow: hidden; /* 🔥 trava a imagem dentro */
+  overflow: hidden;
 }
 
 .foto-box img {
@@ -66,8 +75,9 @@ button {
   object-fit: cover;
 }
 
+/* TEXTO */
 .nome {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -101,11 +111,10 @@ p {
   <input id="telefone" placeholder="Telefone">
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo" placeholder="Objetivo"></textarea>
+  <textarea id="objetivo" placeholder="Objetivo profissional"></textarea>
 
-  <textarea id="formacao" placeholder="Formação"></textarea>
+  <textarea id="formacao" placeholder="Formação escolar"></textarea>
 
-  <!-- EXPERIÊNCIA SEPARADA -->
   <h3>Experiência 1</h3>
   <input id="empresa1" placeholder="Empresa">
   <input id="cargo1" placeholder="Cargo">
@@ -116,11 +125,11 @@ p {
   <input id="cargo2" placeholder="Cargo">
   <input id="periodo2" placeholder="Período">
 
-  <textarea id="cursos" placeholder="Cursos"></textarea>
+  <textarea id="cursos" placeholder="Cursos complementares"></textarea>
 
-  <input type="file" id="foto">
+  <input type="file" id="foto" accept="image/*">
 
-  <button onclick="gerarPDF()">Gerar PDF</button>
+  <button onclick="gerarPDF()">Gerar Currículo em PDF</button>
 </div>
 
 <!-- CURRICULO -->
@@ -186,16 +195,15 @@ function gerarPDF() {
   document.getElementById("outFormacao").innerText =
     document.getElementById("formacao").value;
 
-  // EXPERIÊNCIAS FORMATADAS
   let experiencia = "";
 
-  if(document.getElementById("empresa1").value){
+  if(empresa1.value){
     experiencia += "Empresa: " + empresa1.value + "\n";
     experiencia += "Cargo: " + cargo1.value + "\n";
     experiencia += "Período: " + periodo1.value + "\n\n";
   }
 
-  if(document.getElementById("empresa2").value){
+  if(empresa2.value){
     experiencia += "Empresa: " + empresa2.value + "\n";
     experiencia += "Cargo: " + cargo2.value + "\n";
     experiencia += "Período: " + periodo2.value + "\n";
@@ -207,6 +215,11 @@ function gerarPDF() {
     document.getElementById("cursos").value;
 
   const file = document.getElementById("foto").files[0];
+
+  if (!file) {
+    alert("Adicione uma foto!");
+    return;
+  }
 
   const reader = new FileReader();
 
@@ -220,15 +233,15 @@ function gerarPDF() {
       filename: 'curriculo.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 3 },
-      jsPDF: { unit: 'px', format: [794, 1123] }
+      jsPDF: {
+        unit: 'px',
+        format: [794, 1123],
+        orientation: 'portrait'
+      }
     }).from(document.getElementById("curriculo")).save();
   };
 
-  if(file){
-    reader.readAsDataURL(file);
-  } else {
-    alert("Adicione uma foto");
-  }
+  reader.readAsDataURL(file);
 }
 </script>
 
