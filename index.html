@@ -236,6 +236,12 @@ function gerarPDF(){
     exp += "Período: " + periodo2.value + "\n";
   }
 
+  if(empresa3.value){
+    exp += "Empresa: " + empresa3.value + "\n";
+    exp += "Cargo: " + cargo3.value + "\n";
+    exp += "Período: " + periodo3.value + "\n";
+  }
+
   outExperiencia.innerText = exp;
   outCursos.innerText = cursos.value;
 
