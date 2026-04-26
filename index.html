@@ -39,6 +39,7 @@ button.gerar {
   font-size: 16px;
 }
 
+/* 🔥 AJUSTE DE MARGENS A4 */
 #curriculo {
   display: none;
   width: 794px;
@@ -46,10 +47,9 @@ button.gerar {
   background: white;
 
   box-sizing: border-box;
-  padding-top: 113px;
-  padding-left: 113px;
-  padding-right: 75px;
-  padding-bottom: 75px;
+
+  /* Margens mais equilibradas */
+  padding: 80px 70px;
 }
 
 .topo {
@@ -105,10 +105,14 @@ p {
   <input id="endereco" placeholder="Endereço">
   <input id="bairro" placeholder="Bairro">
   <input id="cidade" placeholder="Cidade - Estado">
-  <input id="telefone" placeholder="Telefone">
+  
+  <!-- 🔥 TELEFONE COM MÁSCARA -->
+  <input id="telefone" placeholder="Telefone" oninput="mascaraTelefone(this)">
+  
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo">Atuar na Empresa, na área da saúde a fim de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.</textarea>
+  <textarea id="objetivo">Atuar na Empresa, com a intenção de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.
+</textarea>
 
   <textarea id="formacao" placeholder="Formação"></textarea>
 
@@ -122,7 +126,6 @@ p {
   <input id="cargo2" placeholder="Cargo">
   <input id="periodo2" placeholder="Período">
 
-  <!-- 🔥 EXPERIÊNCIA 3 -->
   <h3>Experiência 3</h3>
   <input id="empresa3" placeholder="Empresa">
   <input id="cargo3" placeholder="Cargo">
@@ -221,15 +224,34 @@ function gerarPDF(){
     curriculo.style.display = "block";
 
     html2pdf().set({
-      margin: 0,
+      margin: 10, /* 🔥 evita corte */
       filename: 'curriculo.pdf',
       image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 3 },
+      html2canvas: { scale: 2 },
       jsPDF: { unit: 'px', format: [794, 1123] }
     }).from(curriculo).save();
   };
 
   reader.readAsDataURL(file);
+}
+
+/* 🔥 MÁSCARA DE TELEFONE */
+function mascaraTelefone(input) {
+  let value = input.value.replace(/\D/g, "");
+
+  if (value.length > 11) value = value.slice(0, 11);
+
+  if (value.length > 10) {
+    value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
+  } else if (value.length > 6) {
+    value = value.replace(/^(\d{2})(\d{4})(\d+)/, "($1) $2-$3");
+  } else if (value.length > 2) {
+    value = value.replace(/^(\d{2})(\d+)/, "($1) $2");
+  } else {
+    value = value.replace(/^(\d*)/, "($1");
+  }
+
+  input.value = value;
 }
 </script>
 
