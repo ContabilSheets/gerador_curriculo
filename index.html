@@ -17,7 +17,6 @@ body {
   padding: 10px;
 }
 
-/* FORMULÁRIO */
 .container {
   max-width: 400px;
   margin: auto;
@@ -30,14 +29,8 @@ input, textarea {
   width: 100%;
   padding: 12px;
   margin-bottom: 10px;
-  font-size: 14px;
   border: 1px solid #999;
   border-radius: 5px;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 80px;
 }
 
 button {
@@ -46,12 +39,9 @@ button {
   background: black;
   color: white;
   border: none;
-  font-size: 16px;
   border-radius: 5px;
-  margin-top: 5px;
 }
 
-/* FOTO */
 .file-label {
   display: block;
   text-align: center;
@@ -63,13 +53,12 @@ button {
 
 .file-label input { display: none; }
 
-/* CNH */
 .cnh-group {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 
-/* CURRÍCULO (CORRIGIDO MOBILE) */
+/* CURRÍCULO */
 #curriculo {
   visibility: hidden;
   position: absolute;
@@ -86,7 +75,7 @@ button {
 
 .info { width: 75%; }
 
-/* FOTO 3x4 REAL + ENQUADRAMENTO */
+/* FOTO 3x4 */
 .foto-box {
   width: 30mm;
   height: 40mm;
@@ -129,7 +118,7 @@ p { white-space: pre-line; }
   <input id="telefone" placeholder="Telefone">
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo"></textarea>
+  <textarea id="objetivo" placeholder="Objetivo (opcional)"></textarea>
   <textarea id="formacao" placeholder="Formação"></textarea>
 
   <h3>Experiência 1</h3>
@@ -151,12 +140,12 @@ p { white-space: pre-line; }
 
   <h3>Habilitação</h3>
   <div class="cnh-group">
-    <label><input type="checkbox" value="A" class="cnh"> A</label>
-    <label><input type="checkbox" value="B" class="cnh"> B</label>
-    <label><input type="checkbox" value="C" class="cnh"> C</label>
-    <label><input type="checkbox" value="D" class="cnh"> D</label>
-    <label><input type="checkbox" value="E" class="cnh"> E</label>
-    <label><input type="checkbox" value="ACC" class="cnh"> ACC</label>
+    <label><input type="checkbox" value="A" class="cnh"> Cat. A</label>
+    <label><input type="checkbox" value="B" class="cnh"> Cat. B</label>
+    <label><input type="checkbox" value="C" class="cnh"> Cat. C</label>
+    <label><input type="checkbox" value="D" class="cnh"> Cat. D</label>
+    <label><input type="checkbox" value="E" class="cnh"> Cat. E</label>
+    <label><input type="checkbox" value="ACC" class="cnh"> Cat. ACC</label>
   </div>
 
   <label class="file-label">
@@ -211,19 +200,25 @@ async function gerarPDF(){
   outTelefone.innerText = "Telefone: " + telefone.value;
   outEmail.innerText = "E-mail: " + email.value;
 
+  // CNH
+  const ordem = ["A","B","C","D","E","ACC"];
   let lista = [];
   document.querySelectorAll(".cnh:checked").forEach(c => lista.push(c.value));
+  lista.sort((a,b) => ordem.indexOf(a) - ordem.indexOf(b));
   outCnh.innerText = lista.length ? "Cat. " + lista.join("/") : "";
 
-  outObjetivo.innerText = objetivo.value;
+  // OBJETIVO (nunca vazio)
+  outObjetivo.innerText = objetivo.value || 
+  "Atuar na empresa de forma ética e profissional, contribuindo com meus conhecimentos e buscando crescimento contínuo.";
+
   outFormacao.innerText = formacao.value;
 
   let exp = "";
   if(empresa1.value) exp += empresa1.value + " - " + cargo1.value + " (" + periodo1.value + ")\n\n";
   if(empresa2.value) exp += empresa2.value + " - " + cargo2.value + " (" + periodo2.value + ")\n\n";
   if(empresa3.value) exp += empresa3.value + " - " + cargo3.value + " (" + periodo3.value + ")";
-
   outExperiencia.innerText = exp;
+
   outCursos.innerText = cursos.value;
 
   const file = foto.files[0];
