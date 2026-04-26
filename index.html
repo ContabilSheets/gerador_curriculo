@@ -19,6 +19,7 @@ body {
   padding: 10px;
 }
 
+/* FORMULÁRIO */
 .container {
   max-width: 400px;
   margin: auto;
@@ -73,13 +74,14 @@ button.gerar {
   gap: 6px 20px;
 }
 
-/* CURRÍCULO */
+/* CURRÍCULO RESPONSIVO */
 #curriculo {
   display: none;
-  width: 794px;
-  height: 1123px;
+  width: 100%;
+  max-width: 794px;
   background: white;
-  padding: 113px 75px 75px 113px;
+  padding: 40px;
+  margin: auto;
 }
 
 .topo {
@@ -112,6 +114,7 @@ button.gerar {
 .section-title {
   margin-top: 20px;
   font-weight: bold;
+  text-transform: uppercase;
 }
 
 hr {
@@ -137,6 +140,7 @@ p {
   <input id="email" placeholder="E-mail">
 
   <textarea id="objetivo">Atuar na Empresa, na área da saúde a fim de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.</textarea>
+
   <textarea id="formacao" placeholder="Formação"></textarea>
 
   <!-- EXPERIÊNCIAS -->
@@ -178,6 +182,7 @@ p {
 </div>
 
 <div id="curriculo">
+
   <div class="topo">
     <div class="info">
       <p class="nome" id="outNome"></p>
@@ -194,20 +199,33 @@ p {
     </div>
   </div>
 
-  <div class="section-title">EXPERIÊNCIA</div>
+  <div class="section-title">OBJETIVO</div>
+  <hr>
+  <p id="outObjetivo"></p>
+
+  <div class="section-title">FORMAÇÃO ESCOLAR</div>
+  <hr>
+  <p id="outFormacao"></p>
+
+  <div class="section-title">EXPERIÊNCIA PROFISSIONAL</div>
   <hr>
   <p id="outExperiencia"></p>
+
+  <div class="section-title">CURSOS COMPLEMENTARES</div>
+  <hr>
+  <p id="outCursos"></p>
+
 </div>
 
 <script>
 function gerarPDF(){
 
   outNome.innerText = nome.value;
-  outEndereco.innerText = endereco.value;
-  outBairro.innerText = bairro.value;
-  outCidade.innerText = cidade.value;
-  outTelefone.innerText = telefone.value;
-  outEmail.innerText = email.value;
+  outEndereco.innerText = "Endereço: " + endereco.value;
+  outBairro.innerText = "Bairro: " + bairro.value;
+  outCidade.innerText = "Cidade: " + cidade.value;
+  outTelefone.innerText = "Telefone: " + telefone.value;
+  outEmail.innerText = "E-mail: " + email.value;
 
   // CNH
   let lista = [];
@@ -217,7 +235,9 @@ function gerarPDF(){
 
   outCnh.innerText = lista.length ? "Cat. " + lista.join("/") : "";
 
-  // EXPERIÊNCIA
+  outObjetivo.innerText = objetivo.value;
+  outFormacao.innerText = formacao.value;
+
   let exp = "";
 
   if(empresa1.value){
@@ -239,6 +259,7 @@ function gerarPDF(){
   }
 
   outExperiencia.innerText = exp;
+  outCursos.innerText = cursos.value;
 
   const file = foto.files[0];
 
@@ -256,13 +277,15 @@ function gerarPDF(){
 
     outFoto.onload = function(){
       setTimeout(() => {
+
         html2pdf().set({
-          margin: 0,
+          margin: 10,
           filename: 'curriculo.pdf',
           image: { type: 'jpeg', quality: 1 },
-          html2canvas: { scale: 2, useCORS: true },
-          jsPDF: { unit: 'px', format: [794, 1123] }
+          html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         }).from(curriculo).save();
+
       }, 300);
     };
   };
