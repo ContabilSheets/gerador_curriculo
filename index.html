@@ -46,7 +46,7 @@ button.gerar {
   font-size: 16px;
 }
 
-/* 🔥 BOTÃO DE FOTO */
+/* BOTÃO FOTO */
 .upload-btn {
   display: inline-block;
   padding: 10px;
@@ -66,7 +66,7 @@ button.gerar {
   font-size: 12px;
 }
 
-/* 🔥 A4 */
+/* A4 */
 #curriculo {
   display: none;
   width: 794px;
@@ -135,7 +135,9 @@ p {
   <textarea id="objetivo">Atuar na Empresa, com a intenção de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.
 </textarea>
 
-  <textarea id="formacao" placeholder="Formação"></textarea>
+  <!-- 🔥 FORMAÇÃO COM TÍTULO -->
+  <h3>Formação</h3>
+  <textarea id="formacao" placeholder="Digite sua formação"></textarea>
 
   <h3>Experiência 1</h3>
   <input id="empresa1" placeholder="Empresa">
@@ -152,11 +154,11 @@ p {
   <input id="cargo3" placeholder="Cargo">
   <input id="periodo3" placeholder="Período">
 
-  <!-- 🔥 CURSOS COM TÍTULO -->
+  <!-- 🔥 CURSOS -->
   <h3>Cursos</h3>
   <textarea id="cursos" placeholder="Digite seus cursos"></textarea>
 
-  <!-- 🔥 BOTÃO PERSONALIZADO FOTO -->
+  <!-- 🔥 FOTO -->
   <label class="upload-btn">
     Escolha a foto
     <input type="file" id="foto">
@@ -263,7 +265,7 @@ function gerarPDF(){
   reader.readAsDataURL(file);
 }
 
-/* 🔥 MÁSCARA TELEFONE */
+/* MÁSCARA TELEFONE */
 function mascaraTelefone(input) {
   let value = input.value.replace(/\D/g, "");
 
@@ -282,7 +284,7 @@ function mascaraTelefone(input) {
   input.value = value;
 }
 
-/* 🔥 MOSTRAR NOME DO ARQUIVO */
+/* NOME DO ARQUIVO */
 foto.addEventListener("change", function() {
   const nome = this.files[0]?.name || "Nenhum arquivo escolhido";
   document.getElementById("nomeArquivo").innerText = nome;
