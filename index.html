@@ -8,6 +8,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+
+/* 🔥 CORREÇÃO GLOBAL */
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Times New Roman", serif;
   background: #eaeaea;
@@ -15,8 +21,10 @@ body {
   padding: 10px;
 }
 
+/* 🔥 CONTAINER RESPONSIVO */
 .container {
   max-width: 400px;
+  width: 100%;
   margin: auto;
   background: #fff;
   padding: 15px;
@@ -28,6 +36,7 @@ input, textarea {
   padding: 10px;
   margin-bottom: 10px;
   font-size: 14px;
+  box-sizing: border-box;
 }
 
 button.gerar {
@@ -39,16 +48,12 @@ button.gerar {
   font-size: 16px;
 }
 
-/* 🔥 AJUSTE DE MARGENS A4 */
+/* 🔥 AJUSTE A4 */
 #curriculo {
   display: none;
   width: 794px;
   height: 1123px;
   background: white;
-
-  box-sizing: border-box;
-
-  /* Margens mais equilibradas */
   padding: 80px 70px;
 }
 
@@ -105,14 +110,13 @@ p {
   <input id="endereco" placeholder="Endereço">
   <input id="bairro" placeholder="Bairro">
   <input id="cidade" placeholder="Cidade - Estado">
-  
-  <!-- 🔥 TELEFONE COM MÁSCARA -->
+
+  <!-- TELEFONE COM MÁSCARA -->
   <input id="telefone" placeholder="Telefone" oninput="mascaraTelefone(this)">
-  
+
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo">Atuar na Empresa, com a intenção de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.
-</textarea>
+  <textarea id="objetivo">Atuar na Empresa, na área da saúde a fim de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.</textarea>
 
   <textarea id="formacao" placeholder="Formação"></textarea>
 
@@ -224,7 +228,7 @@ function gerarPDF(){
     curriculo.style.display = "block";
 
     html2pdf().set({
-      margin: 10, /* 🔥 evita corte */
+      margin: 10,
       filename: 'curriculo.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2 },
@@ -235,7 +239,7 @@ function gerarPDF(){
   reader.readAsDataURL(file);
 }
 
-/* 🔥 MÁSCARA DE TELEFONE */
+/* 🔥 MÁSCARA TELEFONE BR */
 function mascaraTelefone(input) {
   let value = input.value.replace(/\D/g, "");
 
