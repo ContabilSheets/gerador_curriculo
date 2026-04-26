@@ -74,7 +74,7 @@ button.gerar {
   gap: 6px 20px;
 }
 
-/* CURRÍCULO RESPONSIVO */
+/* CURRÍCULO */
 #curriculo {
   display: none;
   width: 100%;
@@ -93,17 +93,22 @@ button.gerar {
   width: 75%;
 }
 
+/* 🔥 FOTO 3x4 REAL + CORTE CENTRAL */
 .foto-box {
-  width: 3cm;
-  height: 4cm;
+  width: 30mm;
+  height: 40mm;
   border: 1px solid black;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .foto-box img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 30%; /* central + leve ajuste para rosto */
 }
 
 .nome {
@@ -143,7 +148,6 @@ p {
 
   <textarea id="formacao" placeholder="Formação"></textarea>
 
-  <!-- EXPERIÊNCIAS -->
   <h3>Experiência 1</h3>
   <input id="empresa1" placeholder="Empresa">
   <input id="cargo1" placeholder="Cargo">
@@ -161,7 +165,6 @@ p {
 
   <textarea id="cursos" placeholder="Cursos"></textarea>
 
-  <!-- CNH -->
   <h3>Habilitação</h3>
   <div class="cnh-group">
     <label><input type="checkbox" value="A" class="cnh"> Cat. A</label>
@@ -172,7 +175,6 @@ p {
     <label><input type="checkbox" value="ACC" class="cnh"> Cat. ACC</label>
   </div>
 
-  <!-- FOTO -->
   <label class="file-label">
     Adicione a foto
     <input type="file" id="foto" accept="image/*">
@@ -227,12 +229,8 @@ function gerarPDF(){
   outTelefone.innerText = "Telefone: " + telefone.value;
   outEmail.innerText = "E-mail: " + email.value;
 
-  // CNH
   let lista = [];
-  document.querySelectorAll(".cnh:checked").forEach(c => {
-    lista.push(c.value);
-  });
-
+  document.querySelectorAll(".cnh:checked").forEach(c => lista.push(c.value));
   outCnh.innerText = lista.length ? "Cat. " + lista.join("/") : "";
 
   outObjetivo.innerText = objetivo.value;
@@ -282,7 +280,7 @@ function gerarPDF(){
           margin: 10,
           filename: 'curriculo.pdf',
           image: { type: 'jpeg', quality: 1 },
-          html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+          html2canvas: { scale: 3 },
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         }).from(curriculo).save();
 
