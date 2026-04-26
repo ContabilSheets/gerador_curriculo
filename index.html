@@ -8,9 +8,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   font-family: "Times New Roman", serif;
@@ -42,7 +40,7 @@ textarea {
   min-height: 80px;
 }
 
-button.gerar {
+button {
   width: 100%;
   padding: 15px;
   background: black;
@@ -50,6 +48,7 @@ button.gerar {
   border: none;
   font-size: 16px;
   border-radius: 5px;
+  margin-top: 5px;
 }
 
 /* FOTO */
@@ -60,27 +59,22 @@ button.gerar {
   background: #ddd;
   border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 10px;
 }
 
-.file-label input {
-  display: none;
-}
+.file-label input { display: none; }
 
 /* CNH */
 .cnh-group {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px 20px;
 }
 
-/* CURRÍCULO (corrigido para mobile) */
+/* CURRÍCULO (CORRIGIDO MOBILE) */
 #curriculo {
   visibility: hidden;
   position: absolute;
   left: -9999px;
-  width: 100%;
-  max-width: 794px;
+  width: 794px;
   background: white;
   padding: 40px;
 }
@@ -90,19 +84,14 @@ button.gerar {
   justify-content: space-between;
 }
 
-.info {
-  width: 75%;
-}
+.info { width: 75%; }
 
-/* FOTO 3x4 COM ENQUADRAMENTO CORRETO */
+/* FOTO 3x4 REAL + ENQUADRAMENTO */
 .foto-box {
   width: 30mm;
   height: 40mm;
   border: 1px solid black;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .foto-box img {
@@ -120,16 +109,11 @@ button.gerar {
 .section-title {
   margin-top: 20px;
   font-weight: bold;
-  text-transform: uppercase;
 }
 
-hr {
-  border: 1px solid black;
-}
+hr { border: 1px solid black; }
 
-p {
-  white-space: pre-line;
-}
+p { white-space: pre-line; }
 </style>
 </head>
 
@@ -145,9 +129,7 @@ p {
   <input id="telefone" placeholder="Telefone">
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo">Atuar na Empresa, na área da saúde a fim de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.</textarea>
- 
-  <h1>Formação</h1>
+  <textarea id="objetivo"></textarea>
   <textarea id="formacao" placeholder="Formação"></textarea>
 
   <h3>Experiência 1</h3>
@@ -165,17 +147,16 @@ p {
   <input id="cargo3">
   <input id="periodo3">
 
-  <h1>Cursos</h1>
   <textarea id="cursos" placeholder="Cursos"></textarea>
 
   <h3>Habilitação</h3>
   <div class="cnh-group">
-    <label><input type="checkbox" value="Cat. A" class="cnh"> Cat. A</label>
-    <label><input type="checkbox" value="Cat. B" class="cnh"> Cat. B</label>
-    <label><input type="checkbox" value="Cat. C" class="cnh"> Cat. C</label>
-    <label><input type="checkbox" value="Cat. D" class="cnh"> Cat. D</label>
-    <label><input type="checkbox" value="Cat. E" class="cnh"> Cat. E</label>
-    <label><input type="checkbox" value="Cat. ACC" class="cnh"> Cat. ACC</label>
+    <label><input type="checkbox" value="A" class="cnh"> A</label>
+    <label><input type="checkbox" value="B" class="cnh"> B</label>
+    <label><input type="checkbox" value="C" class="cnh"> C</label>
+    <label><input type="checkbox" value="D" class="cnh"> D</label>
+    <label><input type="checkbox" value="E" class="cnh"> E</label>
+    <label><input type="checkbox" value="ACC" class="cnh"> ACC</label>
   </div>
 
   <label class="file-label">
@@ -183,11 +164,10 @@ p {
     <input type="file" id="foto" accept="image/*">
   </label>
 
-  <button class="gerar" onclick="gerarPDF()">Gerar PDF</button>
+  <button onclick="gerarPDF()">Gerar PDF</button>
 </div>
 
 <div id="curriculo">
-
   <div class="topo">
     <div class="info">
       <p class="nome" id="outNome"></p>
@@ -219,7 +199,6 @@ p {
   <div class="section-title">CURSOS</div>
   <hr>
   <p id="outCursos"></p>
-
 </div>
 
 <script>
