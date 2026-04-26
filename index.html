@@ -9,7 +9,7 @@
 
 <style>
 
-/* GLOBAL */
+/* 🔥 CORREÇÃO GLOBAL */
 * {
   box-sizing: border-box;
 }
@@ -66,7 +66,7 @@ button.gerar {
   font-size: 12px;
 }
 
-/* 🔥 CURRÍCULO A4 */
+/* A4 */
 #curriculo {
   display: none;
   width: 794px;
@@ -75,21 +75,18 @@ button.gerar {
   padding: 80px 70px;
 }
 
-/* 🔥 TOPO AJUSTADO */
 .topo {
   display: flex;
   justify-content: space-between;
-  align-items: stretch; /* 🔥 faz a foto ter mesma altura da info */
 }
 
 .info {
   width: 75%;
 }
 
-/* 🔥 FOTO PERFEITAMENTE ENQUADRADA */
 .foto-box {
   width: 150px;
-  height: 100%; /* 🔥 acompanha altura do bloco info */
+  height: 200px;
   border: 1px solid black;
   overflow: hidden;
 }
@@ -97,7 +94,7 @@ button.gerar {
 .foto-box img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 🔥 mantém proporção sem distorcer */
+  object-fit: cover;
 }
 
 .nome {
@@ -135,29 +132,34 @@ p {
   <input id="telefone" placeholder="Telefone" oninput="mascaraTelefone(this)">
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo"></textarea>
+  <h3>Objetivo</h3>
+  <textarea id="objetivo">Atuar na Empresa, com a intenção de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.
+</textarea>
 
+  <!-- 🔥 FORMAÇÃO COM TÍTULO -->
   <h3>Formação</h3>
-  <textarea id="formacao"></textarea>
+  <textarea id="formacao" placeholder="Digite sua formação"></textarea>
 
   <h3>Experiência 1</h3>
-  <input id="empresa1">
-  <input id="cargo1">
-  <input id="periodo1">
+  <input id="empresa1" placeholder="Empresa">
+  <input id="cargo1" placeholder="Cargo">
+  <input id="periodo1" placeholder="Período">
 
   <h3>Experiência 2</h3>
-  <input id="empresa2">
-  <input id="cargo2">
-  <input id="periodo2">
+  <input id="empresa2" placeholder="Empresa">
+  <input id="cargo2" placeholder="Cargo">
+  <input id="periodo2" placeholder="Período">
 
   <h3>Experiência 3</h3>
-  <input id="empresa3">
-  <input id="cargo3">
-  <input id="periodo3">
+  <input id="empresa3" placeholder="Empresa">
+  <input id="cargo3" placeholder="Cargo">
+  <input id="periodo3" placeholder="Período">
 
+  <!-- 🔥 CURSOS -->
   <h3>Cursos</h3>
-  <textarea id="cursos"></textarea>
+  <textarea id="cursos" placeholder="Digite seus cursos"></textarea>
 
+  <!-- 🔥 FOTO -->
   <label class="upload-btn">
     Escolha a foto
     <input type="file" id="foto">
