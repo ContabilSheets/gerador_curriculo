@@ -52,7 +52,7 @@ button.gerar {
   border-radius: 5px;
 }
 
-/* BOTÃO FOTO */
+/* FOTO */
 .file-label {
   display: block;
   text-align: center;
@@ -74,14 +74,15 @@ button.gerar {
   gap: 6px 20px;
 }
 
-/* CURRÍCULO */
+/* CURRÍCULO (corrigido para mobile) */
 #curriculo {
-  display: none;
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
   width: 100%;
   max-width: 794px;
   background: white;
   padding: 40px;
-  margin: auto;
 }
 
 .topo {
@@ -93,7 +94,7 @@ button.gerar {
   width: 75%;
 }
 
-/* 🔥 FOTO 3x4 REAL + CORTE CENTRAL */
+/* FOTO 3x4 COM ENQUADRAMENTO CORRETO */
 .foto-box {
   width: 30mm;
   height: 40mm;
@@ -108,7 +109,7 @@ button.gerar {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 30%; /* central + leve ajuste para rosto */
+  object-position: 50% 15%;
 }
 
 .nome {
@@ -144,35 +145,36 @@ p {
   <input id="telefone" placeholder="Telefone">
   <input id="email" placeholder="E-mail">
 
-  <textarea id="objetivo">Atuar na Empresa, na área da saúde a fim de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.</textarea>
+  <textarea id="objetivo">Atuar na Empresa, na área da saúde a fim de agregar conceitos práticos à minha formação.</textarea>
 
   <textarea id="formacao" placeholder="Formação"></textarea>
 
   <h3>Experiência 1</h3>
-  <input id="empresa1" placeholder="Empresa">
-  <input id="cargo1" placeholder="Cargo">
-  <input id="periodo1" placeholder="Período">
+  <input id="empresa1">
+  <input id="cargo1">
+  <input id="periodo1">
 
   <h3>Experiência 2</h3>
-  <input id="empresa2" placeholder="Empresa">
-  <input id="cargo2" placeholder="Cargo">
-  <input id="periodo2" placeholder="Período">
+  <input id="empresa2">
+  <input id="cargo2">
+  <input id="periodo2">
 
   <h3>Experiência 3</h3>
-  <input id="empresa3" placeholder="Empresa">
-  <input id="cargo3" placeholder="Cargo">
-  <input id="periodo3" placeholder="Período">
+  <input id="empresa3">
+  <input id="cargo3">
+  <input id="periodo3">
 
+  <textarea id="cursos" placeholder="Cursos"></textarea>
   <textarea id="cursos" placeholder="Cursos"></textarea>
 
   <h3>Habilitação</h3>
   <div class="cnh-group">
-    <label><input type="checkbox" value="A" class="cnh"> Cat. A</label>
-    <label><input type="checkbox" value="B" class="cnh"> Cat. B</label>
-    <label><input type="checkbox" value="C" class="cnh"> Cat. C</label>
-    <label><input type="checkbox" value="D" class="cnh"> Cat. D</label>
-    <label><input type="checkbox" value="E" class="cnh"> Cat. E</label>
-    <label><input type="checkbox" value="ACC" class="cnh"> Cat. ACC</label>
+    <label><input type="checkbox" value="A" class="cnh"> A</label>
+    <label><input type="checkbox" value="B" class="cnh"> B</label>
+    <label><input type="checkbox" value="C" class="cnh"> C</label>
+    <label><input type="checkbox" value="D" class="cnh"> D</label>
+    <label><input type="checkbox" value="E" class="cnh"> E</label>
+    <label><input type="checkbox" value="ACC" class="cnh"> ACC</label>
   </div>
 
   <label class="file-label">
@@ -205,22 +207,22 @@ p {
   <hr>
   <p id="outObjetivo"></p>
 
-  <div class="section-title">FORMAÇÃO ESCOLAR</div>
+  <div class="section-title">FORMAÇÃO</div>
   <hr>
   <p id="outFormacao"></p>
 
-  <div class="section-title">EXPERIÊNCIA PROFISSIONAL</div>
+  <div class="section-title">EXPERIÊNCIA</div>
   <hr>
   <p id="outExperiencia"></p>
 
-  <div class="section-title">CURSOS COMPLEMENTARES</div>
+  <div class="section-title">CURSOS</div>
   <hr>
   <p id="outCursos"></p>
 
 </div>
 
 <script>
-function gerarPDF(){
+async function gerarPDF(){
 
   outNome.innerText = nome.value;
   outEndereco.innerText = "Endereço: " + endereco.value;
@@ -237,30 +239,14 @@ function gerarPDF(){
   outFormacao.innerText = formacao.value;
 
   let exp = "";
-
-  if(empresa1.value){
-    exp += "Empresa: " + empresa1.value + "\n";
-    exp += "Cargo: " + cargo1.value + "\n";
-    exp += "Período: " + periodo1.value + "\n\n";
-  }
-
-  if(empresa2.value){
-    exp += "Empresa: " + empresa2.value + "\n";
-    exp += "Cargo: " + cargo2.value + "\n";
-    exp += "Período: " + periodo2.value + "\n\n";
-  }
-
-  if(empresa3.value){
-    exp += "Empresa: " + empresa3.value + "\n";
-    exp += "Cargo: " + cargo3.value + "\n";
-    exp += "Período: " + periodo3.value + "\n";
-  }
+  if(empresa1.value) exp += empresa1.value + " - " + cargo1.value + " (" + periodo1.value + ")\n\n";
+  if(empresa2.value) exp += empresa2.value + " - " + cargo2.value + " (" + periodo2.value + ")\n\n";
+  if(empresa3.value) exp += empresa3.value + " - " + cargo3.value + " (" + periodo3.value + ")";
 
   outExperiencia.innerText = exp;
   outCursos.innerText = cursos.value;
 
   const file = foto.files[0];
-
   if(!file){
     alert("Adicione uma foto");
     return;
@@ -271,20 +257,24 @@ function gerarPDF(){
   reader.onload = function(e){
     outFoto.src = e.target.result;
 
-    curriculo.style.display = "block";
+    curriculo.style.visibility = "visible";
+    curriculo.style.position = "static";
 
-    outFoto.onload = function(){
-      setTimeout(() => {
+    outFoto.onload = async function(){
 
-        html2pdf().set({
-          margin: 10,
-          filename: 'curriculo.pdf',
-          image: { type: 'jpeg', quality: 1 },
-          html2canvas: { scale: 3 },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        }).from(curriculo).save();
+      await new Promise(r => setTimeout(r, 800));
 
-      }, 300);
+      await html2pdf().set({
+        margin: 10,
+        filename: 'curriculo.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      }).from(curriculo).save();
+
+      curriculo.style.visibility = "hidden";
+      curriculo.style.position = "absolute";
+      curriculo.style.left = "-9999px";
     };
   };
 
