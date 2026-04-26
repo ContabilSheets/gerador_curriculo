@@ -21,7 +21,6 @@ body {
   padding: 10px;
 }
 
-/* 🔥 CONTAINER RESPONSIVO */
 .container {
   max-width: 400px;
   width: 100%;
@@ -36,7 +35,6 @@ input, textarea {
   padding: 10px;
   margin-bottom: 10px;
   font-size: 14px;
-  box-sizing: border-box;
 }
 
 button.gerar {
@@ -48,7 +46,27 @@ button.gerar {
   font-size: 16px;
 }
 
-/* 🔥 AJUSTE A4 */
+/* 🔥 BOTÃO DE FOTO */
+.upload-btn {
+  display: inline-block;
+  padding: 10px;
+  background: black;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.upload-btn input {
+  display: none;
+}
+
+#nomeArquivo {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+/* 🔥 A4 */
 #curriculo {
   display: none;
   width: 794px;
@@ -111,9 +129,7 @@ p {
   <input id="bairro" placeholder="Bairro">
   <input id="cidade" placeholder="Cidade - Estado">
 
-  <!-- TELEFONE COM MÁSCARA -->
   <input id="telefone" placeholder="Telefone" oninput="mascaraTelefone(this)">
-
   <input id="email" placeholder="E-mail">
 
   <textarea id="objetivo">Atuar na Empresa, com a intenção de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.
@@ -136,9 +152,16 @@ p {
   <input id="cargo3" placeholder="Cargo">
   <input id="periodo3" placeholder="Período">
 
-  <textarea id="cursos" placeholder="Cursos"></textarea>
+  <!-- 🔥 CURSOS COM TÍTULO -->
+  <h3>Cursos</h3>
+  <textarea id="cursos" placeholder="Digite seus cursos"></textarea>
 
-  <input type="file" id="foto">
+  <!-- 🔥 BOTÃO PERSONALIZADO FOTO -->
+  <label class="upload-btn">
+    Escolha a foto
+    <input type="file" id="foto">
+  </label>
+  <span id="nomeArquivo">Nenhum arquivo escolhido</span>
 
   <button class="gerar" onclick="gerarPDF()">Gerar PDF</button>
 </div>
@@ -240,7 +263,7 @@ function gerarPDF(){
   reader.readAsDataURL(file);
 }
 
-/* 🔥 MÁSCARA TELEFONE BR */
+/* 🔥 MÁSCARA TELEFONE */
 function mascaraTelefone(input) {
   let value = input.value.replace(/\D/g, "");
 
@@ -258,6 +281,12 @@ function mascaraTelefone(input) {
 
   input.value = value;
 }
+
+/* 🔥 MOSTRAR NOME DO ARQUIVO */
+foto.addEventListener("change", function() {
+  const nome = this.files[0]?.name || "Nenhum arquivo escolhido";
+  document.getElementById("nomeArquivo").innerText = nome;
+});
 </script>
 
 </body>
