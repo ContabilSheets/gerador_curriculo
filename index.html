@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -66,9 +67,11 @@ button.gerar {
   font-size: 12px;
 }
 
-/* A4 */
+/* 🔥 A4 AJUSTADO PARA MOBILE */
 #curriculo {
-  display: none;
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
   width: 794px;
   height: 1123px;
   background: white;
@@ -116,6 +119,7 @@ p {
   margin: 5px 0;
   white-space: pre-line;
 }
+
 </style>
 </head>
 
@@ -128,15 +132,12 @@ p {
   <input id="endereco" placeholder="Endereço">
   <input id="bairro" placeholder="Bairro">
   <input id="cidade" placeholder="Cidade - Estado">
-
   <input id="telefone" placeholder="Telefone" oninput="mascaraTelefone(this)">
   <input id="email" placeholder="E-mail">
 
   <h3>Objetivo</h3>
-  <textarea id="objetivo">Atuar na Empresa, com a intenção de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.
-</textarea>
+  <textarea id="objetivo">Atuar na Empresa, com a intenção de agregar conceitos práticos à minha formação, utilizando sempre os conhecimentos adquiridos. Proporcionando uma maior qualidade nos serviços oferecidos pela Empresa.</textarea>
 
-  <!-- 🔥 FORMAÇÃO COM TÍTULO -->
   <h3>Formação</h3>
   <textarea id="formacao" placeholder="Digite sua formação"></textarea>
 
@@ -155,22 +156,20 @@ p {
   <input id="cargo3" placeholder="Cargo">
   <input id="periodo3" placeholder="Período">
 
-  <!-- 🔥 CURSOS -->
   <h3>Cursos</h3>
   <textarea id="cursos" placeholder="Digite seus cursos"></textarea>
 
-  <!-- 🔥 FOTO -->
   <label class="upload-btn">
     Escolha a foto
     <input type="file" id="foto">
   </label>
+
   <span id="nomeArquivo">Nenhum arquivo escolhido</span>
 
   <button class="gerar" onclick="gerarPDF()">Gerar PDF</button>
 </div>
 
 <div id="curriculo">
-
   <div class="topo">
     <div class="info">
       <p class="nome" id="outNome"></p>
@@ -180,7 +179,6 @@ p {
       <p id="outTelefone"></p>
       <p id="outEmail"></p>
     </div>
-
     <div class="foto-box">
       <img id="outFoto">
     </div>
@@ -201,10 +199,10 @@ p {
   <div class="section-title">CURSOS COMPLEMENTARES</div>
   <hr>
   <p id="outCursos"></p>
-
 </div>
 
 <script>
+
 function gerarPDF(){
 
   outNome.innerText = nome.value;
@@ -213,7 +211,6 @@ function gerarPDF(){
   outCidade.innerText = "Cidade: " + cidade.value;
   outTelefone.innerText = "Telefone: " + telefone.value;
   outEmail.innerText = "E-mail: " + email.value;
-
   outObjetivo.innerText = objetivo.value;
   outFormacao.innerText = formacao.value;
 
@@ -250,17 +247,25 @@ function gerarPDF(){
   const reader = new FileReader();
 
   reader.onload = function(e){
+
     outFoto.src = e.target.result;
 
-    curriculo.style.display = "block";
+    curriculo.style.visibility = "visible";
 
-    html2pdf().set({
-      margin: 10,
-      filename: 'curriculo.pdf',
-      image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'px', format: [794, 1123] }
-    }).from(curriculo).save();
+    setTimeout(() => {
+
+      html2pdf().set({
+        margin: 5,
+        filename: 'curriculo.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 1, useCORS: true },
+        jsPDF: { unit: 'px', format: [794, 1123] }
+      }).from(curriculo).save().then(() => {
+        curriculo.style.visibility = "hidden";
+      });
+
+    }, 500);
+
   };
 
   reader.readAsDataURL(file);
@@ -269,7 +274,6 @@ function gerarPDF(){
 /* MÁSCARA TELEFONE */
 function mascaraTelefone(input) {
   let value = input.value.replace(/\D/g, "");
-
   if (value.length > 11) value = value.slice(0, 11);
 
   if (value.length > 10) {
@@ -290,7 +294,9 @@ foto.addEventListener("change", function() {
   const nome = this.files[0]?.name || "Nenhum arquivo escolhido";
   document.getElementById("nomeArquivo").innerText = nome;
 });
+
 </script>
 
 </body>
 </html>
+```
